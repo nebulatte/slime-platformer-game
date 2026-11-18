@@ -78,7 +78,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"fall",
-"speed": 8.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -118,7 +118,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vtaks"]
-radius = 7.0
+radius = 8.0
 height = 28.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1431046267]
@@ -128,11 +128,15 @@ script = ExtResource("1_g2els")
 z_index = 5
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_g4v7s")
-animation = &"walk"
+animation = &"fall"
 autoplay = "idle"
+frame_progress = 0.18571909
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=533835895]
-visible = false
-position = Vector2(0, -7)
+position = Vector2(0, -9)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_vtaks")
+
+[node name="CoyoteTimer" type="Timer" parent="." unique_id=437845483]
+wait_time = 0.1
+one_shot = true

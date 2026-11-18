@@ -4,17 +4,20 @@ enum State { GROUND, AIR }
 var state: State = State.GROUND
 
 const SPEED = 200.0
-const JUMP_VELOCITY = -500.0
+const JUMP_VELOCITY = -400.0
 const SLOW_WALK_SPEED = 0.5
 const MAX_JUMPS = 2
+const PUSH_FORCE = 200
 
 var jumps_remaining: int = MAX_JUMPS
 
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var timer: Timer = $CoyoteTimer
 
 func _ready() -> void:
 	sprite.animation_finished.connect(_on_animation_finished)
+	timer.timeout.connect(_on_coyote_timeout)
 
 func _physics_process(delta: float) -> void:
 	# gravity applies in every state
@@ -36,13 +39,15 @@ func _physics_process(delta: float) -> void:
 			_air_state()
 
 	move_and_slide()
+	_push_objects()
+	
 
 func _ground_state(dir: float) -> void:
-	jumps_remaining = 2
+	jumps_remaining = MAX_JUMPS
 	# walked off a ledge (or spawned in the air): switch to AIR and reduces usable jumps to 1
 	if not is_on_floor():
 		state = State.AIR
-		jumps_remaining = 1
+		timer.start()
 		sprite.play("fall")
 		return
 
@@ -59,6 +64,9 @@ func _air_state() -> void:
 	# velocity.y >= 0 avoids "landing" on the first frame of a jump
 	if is_on_floor() and velocity.y >= 0:
 		state = State.GROUND
+		timer.stop()
+		return
+		
 	if Input.is_action_just_pressed("jump") and jumps_remaining > 0:
 		_jump()
 
@@ -69,5 +77,17 @@ func _on_animation_finished() -> void:
 func _jump() -> void:
 	velocity.y = JUMP_VELOCITY      # launches immediately
 	state = State.AIR
+	timer.stop()
 	sprite.play("jump_charge")      # visual only
 	jumps_remaining -= 1
+	
+func _on_coyote_timeout() -> void:
+	jumps_remaining = mini(jumps_remaining, MAX_JUMPS - 1)
+	
+func _push_objects() -> void:
+	for i in get_slide_collision_count():
+		var collision := get_slide_collision(i)
+		var collider := collision.get_collider()
+		if collider is RigidBody2D:
+			var push_dir := Vector2(-collision.get_normal().x, 0)
+			collider.apply_central_impulse(push_dir * PUSH_FORCE)
