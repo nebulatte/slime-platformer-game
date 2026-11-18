@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c8hyhs86atqmm"]
+
+[ext_resource type="Texture2D" uid="uid://wf46x2o8s4si" path="res://assets/grass-platforms-Sheet.png" id="1_ba0x2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(96, 22)
+
+[node name="Platform" type="AnimatableBody2D" unique_id=1756810467]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=874377094]
+position = Vector2(0, -11)
+texture = ExtResource("1_ba0x2")
+region_enabled = true
+region_rect = Rect2(0, 10, 96, 22)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1013900709]
+position = Vector2(0, -11)
+shape = SubResource("RectangleShape2D_g4v7s")
+one_way_collision = true

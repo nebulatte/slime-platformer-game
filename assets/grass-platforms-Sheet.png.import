@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cskopvxh60nhj"
-path="res://.godot/imported/slime-Sheet_dispose.png-9170b1bbde7c271a503ffe47d0c6f481.ctex"
+uid="uid://wf46x2o8s4si"
+path="res://.godot/imported/grass-platforms-Sheet.png-abbac1cbfff6f4a6e007cddd55debab2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/slime-Sheet_dispose.png"
-dest_files=["res://.godot/imported/slime-Sheet_dispose.png-9170b1bbde7c271a503ffe47d0c6f481.ctex"]
+source_file="res://assets/grass-platforms-Sheet.png"
+dest_files=["res://.godot/imported/grass-platforms-Sheet.png-abbac1cbfff6f4a6e007cddd55debab2.ctex"]
 
 [params]
 

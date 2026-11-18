@@ -1,141 +1,72 @@
 [gd_scene format=3 uid="uid://g7d05n6f7pd3"]
 
-[ext_resource type="Texture2D" uid="uid://b78qq3rqlrfcs" path="res://sprites/slime-translucent_Sheet.png" id="1_g2els"]
-[ext_resource type="Texture2D" uid="uid://cskopvxh60nhj" path="res://sprites/slime-Sheet_dispose.png" id="2_g2els"]
-
-[sub_resource type="GDScript" id="GDScript_e2o6t"]
-script/source = "extends CharacterBody2D
-
-
-const SPEED = 200.0
-const JUMP_VELOCITY = -500.0
-const WALK_SPEED_MULTIPLIER = 0.5
-
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed(\"jump\") and is_on_floor():
-		animated_sprite.play(\"jump\")
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction
-	var direction := Input.get_axis(\"left\", \"right\")
-	
-	# Flip the sprite
-	if direction > 0:
-		animated_sprite.flip_h = false
-	elif direction < 0:
-		animated_sprite.flip_h = true
-	
-	# Play animations
-	if is_on_floor():
-		if direction == 0:
-			animated_sprite.play(\"idle\")
-		else:
-			animated_sprite.play(\"move\")
-	else:
-		animated_sprite.play(\"fall\")
-	
-	# Handle movement
-	if direction:
-		var current_speed = SPEED
-		if Input.is_action_pressed(\"walk\"):
-			current_speed = SPEED * WALK_SPEED_MULTIPLIER
-		velocity.x = current_speed * direction
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
-"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
-atlas = ExtResource("1_g2els")
-region = Rect2(96, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
-atlas = ExtResource("1_g2els")
-region = Rect2(128, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
-atlas = ExtResource("2_g2els")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
-atlas = ExtResource("2_g2els")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
-atlas = ExtResource("2_g2els")
-region = Rect2(64, 0, 32, 32)
+[ext_resource type="Script" uid="uid://dhahkjm4nf2bf" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://dyuy12aqft3c7" path="res://sprites/slime-translucent-Sheet.png" id="1_qhqgy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
-atlas = ExtResource("2_g2els")
-region = Rect2(96, 0, 32, 32)
+atlas = ExtResource("1_qhqgy")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
+atlas = ExtResource("1_qhqgy")
+region = Rect2(96, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
+atlas = ExtResource("1_qhqgy")
+region = Rect2(128, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smehm"]
-atlas = ExtResource("1_g2els")
-region = Rect2(128, 64, 32, 32)
+atlas = ExtResource("1_qhqgy")
+region = Rect2(160, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ur7pv"]
-atlas = ExtResource("1_g2els")
-region = Rect2(160, 64, 32, 32)
+atlas = ExtResource("1_qhqgy")
+region = Rect2(192, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y4r1p"]
-atlas = ExtResource("1_g2els")
-region = Rect2(192, 64, 32, 32)
+atlas = ExtResource("1_qhqgy")
+region = Rect2(224, 96, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
-atlas = ExtResource("1_g2els")
-region = Rect2(64, 32, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vyb7"]
+atlas = ExtResource("1_qhqgy")
+region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
-atlas = ExtResource("1_g2els")
-region = Rect2(96, 32, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
+atlas = ExtResource("1_qhqgy")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
+atlas = ExtResource("1_qhqgy")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
+atlas = ExtResource("1_qhqgy")
+region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jej6c"]
-atlas = ExtResource("1_g2els")
-region = Rect2(128, 32, 32, 32)
+atlas = ExtResource("1_qhqgy")
+region = Rect2(128, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
-atlas = ExtResource("1_g2els")
-region = Rect2(160, 32, 32, 32)
+atlas = ExtResource("1_qhqgy")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
+atlas = ExtResource("1_qhqgy")
+region = Rect2(128, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_qlg0r")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_tuyoq")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fjrip")
-}],
-"loop": 1,
-"name": &"fall",
-"speed": 6.0
 }, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g2els")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qhqgy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dqkch")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qlg0r")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 6.0
-}, {
-"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_smehm")
 }, {
@@ -146,24 +77,43 @@ animations = [{
 "texture": SubResource("AtlasTexture_y4r1p")
 }],
 "loop": 1,
-"name": &"jump",
-"speed": 6.0
+"name": &"fall",
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_d2wvv")
+"texture": SubResource("AtlasTexture_3vyb7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3v2ag")
+"texture": SubResource("AtlasTexture_g2els")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jej6c")
+"texture": SubResource("AtlasTexture_qhqgy")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f1ej7")
+"texture": SubResource("AtlasTexture_dqkch")
 }],
 "loop": 1,
-"name": &"move",
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jej6c")
+}],
+"loop": 0,
+"name": &"jump_charge",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ej7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oprun")
+}],
+"loop": 1,
+"name": &"walk",
 "speed": 8.0
 }]
 
@@ -172,14 +122,14 @@ radius = 7.0
 height = 28.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1431046267]
-script = SubResource("GDScript_e2o6t")
+script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1913067387]
-position = Vector2(0, -10)
+z_index = 5
+position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_g4v7s")
-animation = &"move"
+animation = &"walk"
 autoplay = "idle"
-frame_progress = 0.29147887
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=533835895]
 visible = false

@@ -1,25 +1,73 @@
 extends CharacterBody2D
 
+enum State { GROUND, AIR }
+var state: State = State.GROUND
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+const SPEED = 200.0
+const JUMP_VELOCITY = -500.0
+const SLOW_WALK_SPEED = 0.5
+const MAX_JUMPS = 2
 
+var jumps_remaining: int = MAX_JUMPS
+
+
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+func _ready() -> void:
+	sprite.animation_finished.connect(_on_animation_finished)
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	# gravity applies in every state
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		
+	sprite.speed_scale = 1
+	
+	var current_speed = Input.get_axis("left", "right") * SPEED
+	if Input.is_action_pressed("walk"):
+		sprite.speed_scale = 0.5
+		current_speed *= SLOW_WALK_SPEED
+	velocity.x = current_speed
 
-	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("left", "right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	match state:
+		State.GROUND:
+			_ground_state(current_speed)
+		State.AIR:
+			_air_state()
 
 	move_and_slide()
+
+func _ground_state(dir: float) -> void:
+	jumps_remaining = 2
+	# walked off a ledge (or spawned in the air): switch to AIR and reduces usable jumps to 1
+	if not is_on_floor():
+		state = State.AIR
+		jumps_remaining = 1
+		sprite.play("fall")
+		return
+
+	if dir == 0:
+		sprite.play("idle")  # swap in your run animation here
+	else:
+		sprite.flip_h = dir < 0
+		sprite.play("walk")
+
+	if Input.is_action_just_pressed("jump") and jumps_remaining > 0:
+		_jump()
+
+func _air_state() -> void:
+	# velocity.y >= 0 avoids "landing" on the first frame of a jump
+	if is_on_floor() and velocity.y >= 0:
+		state = State.GROUND
+	if Input.is_action_just_pressed("jump") and jumps_remaining > 0:
+		_jump()
+
+func _on_animation_finished() -> void:
+	if sprite.animation == "jump_charge" and state == State.AIR:
+		sprite.play("fall")
+		
+func _jump() -> void:
+	velocity.y = JUMP_VELOCITY      # launches immediately
+	state = State.AIR
+	sprite.play("jump_charge")      # visual only
+	jumps_remaining -= 1

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwqexq3wd7cn4"
-path="res://.godot/imported/slime-Sheet.png-dac64e303afb6b6551017436dd60319b.ctex"
+uid="uid://d0s0lwg7hyn0j"
+path="res://.godot/imported/tree_parallax_backgroung-smaller-Sheet.png-87ee59c5588bea5f4973273696a17480.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/slime-Sheet.png"
-dest_files=["res://.godot/imported/slime-Sheet.png-dac64e303afb6b6551017436dd60319b.ctex"]
+source_file="res://assets/tree_parallax_backgroung-smaller-Sheet.png"
+dest_files=["res://.godot/imported/tree_parallax_backgroung-smaller-Sheet.png-87ee59c5588bea5f4973273696a17480.ctex"]
 
 [params]
 
